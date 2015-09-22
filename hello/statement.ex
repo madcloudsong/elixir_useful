@@ -25,4 +25,6 @@ defmodule Statement do
         a = 10
         IO.puts a
     )
+
+
 end
