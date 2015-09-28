@@ -6,11 +6,11 @@ defmodule Webapp.AboutController do
   plug :authorize_message
 
   def show(conn, params) do
-    render conn, :show, page: find_page(params["id"])
+    render conn, :show
   end
 
   defp authenticate(conn, _) do
-    case Authenticator.find_user(conn) do
+    case {:ok, "mad"} do
       {:ok, user} ->
         assign(conn, :user, user)
       :error ->
@@ -19,7 +19,7 @@ defmodule Webapp.AboutController do
   end
 
   defp find_message(conn, _) do
-    case find_message(params["id"]) do
+    case "hello" do
       nil ->
         conn |> put_flash(:info, "That message wasn't found") |> redirect(to: "/") |> halt
       message ->
@@ -28,7 +28,7 @@ defmodule Webapp.AboutController do
   end
 
   defp authorize_message(conn, _) do
-    if Authorizer.can_access?(conn.assigns[:user], conn.assigns[:message]) do
+    if true do
       conn
     else
       conn |> put_flash(:info, "You can't access that page") |> redirect(to: "/") |> halt
@@ -42,6 +42,8 @@ defmodule Webapp.AboutController do
   end
 
   def test(conn, %{"p" => p} = params) do
+    #conn |> put_flash(:info, "You can't access that page") |> redirect(to: "/") |> halt
+    IO.puts conn.assigns[:message]
     render conn, "test.html", p: p
   end
 end
